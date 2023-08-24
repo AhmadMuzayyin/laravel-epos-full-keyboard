@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('retur_penjualans', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(PenjualanDetail::class)->constrained();
-            $table->foreignIdFor(Penjualan::class)->constrained();
             $table->boolean('status')->default(false);
             $table->timestamps();
         });
