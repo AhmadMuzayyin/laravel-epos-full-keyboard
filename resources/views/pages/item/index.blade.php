@@ -49,7 +49,6 @@
 @endsection
 @push('js')
     <script>
-        var openModal = false
         $(document).ready(function() {
             var table = $('#table').DataTable({
                 serverSide: true,
@@ -541,21 +540,29 @@
                 })
             }
         });
-        $(document).keydown(function(event) {
-            if (event.key === 'Escape') {
-                event.preventDefault()
-                if (openModal) {
-                    $('.modal').modal('hide')
-                }
-            }
-        })
-
-        $(document).ready(function(){
-            $('#import').click(function(){
+        $(document).ready(function() {
+            let openModal = false
+            $('#import').click(function() {
                 $('#importItem').modal('show')
-                $('#importItem').on('show.bs.modal', function(){
-                    openModal = true
-                })
+            })
+            $('#importItem').on('show.bs.modal', function() {
+                openModal = true
+            })
+            $('#importItem').on('hide.bs.modal', function() {
+                setTimeout(() => {
+                    openModal = false
+                }, 3000);
+            })
+            $(document).keydown(function(event) {
+                event.preventDefault()
+                if (event.key === 'Escape') {
+                    if (openModal == true) {
+                        $('.modal').modal('hide')
+                    }
+                    if (openModal == false) {
+                        window.location.href = "{{ route('dashboard') }}"
+                    }
+                }
             })
         })
     </script>

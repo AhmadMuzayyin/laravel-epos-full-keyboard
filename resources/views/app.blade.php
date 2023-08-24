@@ -26,7 +26,7 @@
 </head>
 
 <body class="font-sans antialiased">
-    @include('components.preloader')
+    {{-- @include('components.preloader') --}}
     @if (Auth::user())
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
         <div>
@@ -102,6 +102,7 @@
     <script src="{{ url('/assets/DataTables/js/dataTables.bootstrap5.min.js') }}"></script>
     <script src="{{ url('/assets/sweatalert/sweetalert2.all.min.js') }}"></script>
     <script src="{{ url('/assets/jQuery.printPage.plugin.js') }}"></script>
+    <script src="{{ url('/assets/chart.min.js') }}"></script>
 
     <script>
         $('#setTheme').click((e) => {
@@ -119,13 +120,13 @@
                 }
             })
         })
-        document.addEventListener('DOMContentLoaded', function() {
-            // Hapus preloader setelah halaman selesai dimuat
-            var preloader = document.getElementById('preloader');
-            setInterval(() => {
-                preloader.style.display = 'none';
-            }, 1000);
-        });
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     // Hapus preloader setelah halaman selesai dimuat
+        //     var preloader = document.getElementById('preloader');
+        //     setInterval(() => {
+        //         preloader.style.display = 'none';
+        //     }, 1000);
+        // });
     </script>
 
     @stack('js')

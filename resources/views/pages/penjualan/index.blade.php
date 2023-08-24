@@ -39,7 +39,8 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-5">
-                                <input type="search" name="kode" id="kode" class="form-control form-control-sm" placeholder="Kode barang">
+                                <input type="search" name="kode" id="kode" class="form-control form-control-sm"
+                                    placeholder="Kode barang">
                             </div>
                             <div class="col text-end">
                             </div>
@@ -103,7 +104,8 @@
                                 <select class="form-select" aria-label="Default select example" name="member"
                                     id="member">
                                     @foreach ($members as $member)
-                                        <option value="{{ $member['diskon'] }}">{{ $member['nama'] }}</option>
+                                        <option value="{{ $member['id'] }}" data-diskon="{{ $member['diskon'] }}">
+                                            {{ $member['nama'] }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -112,19 +114,22 @@
                         <div class="row mb-3">
                             <div class="col">
                                 <label for="diskon" class="col-form-label">Diskon</label>
-                                <input type="text" class="form-control  text-end" id="diskon" name="diskon" placeholder="Diskon">
+                                <input type="text" class="form-control  text-end" id="diskon" name="diskon"
+                                    placeholder="Diskon">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col">
                                 <label for="bayar" class="col-form-label">Bayar</label>
-                                <input type="text" class="form-control  text-end" width="50px" id="bayar" placeholder="Bayar">
+                                <input type="text" class="form-control  text-end" width="50px" id="bayar"
+                                    placeholder="Bayar">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col">
                                 <label for="kembali" class="col-form-label">Kembali</label>
-                                <input type="text" class="form-control  text-end" id="kembali" readonly placeholder="Kembalian">
+                                <input type="text" class="form-control  text-end" id="kembali" readonly
+                                    placeholder="Kembalian">
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -133,11 +138,14 @@
                                     {{-- <a href="{{ route('print_nota') }}"
                                         class="btn btn-outline-{{ $theme == 'dark' ? 'light' : 'dark' }}"
                                         id="printFaktur">Print</a> --}}
-                                        <button role="button" class="btn btn-outline-{{ $theme == 'dark' ? 'light' : 'dark' }} mt-2"
+                                    <button role="button"
+                                        class="btn btn-outline-{{ $theme == 'dark' ? 'light' : 'dark' }} mt-2"
                                         id="penjualanDelete"><i class="bi bi-trash text-danger"></i>
                                         Delete -
                                         Hapus</button>
-                                        <button class="btn btn-outline-{{ $theme == 'dark' ? 'light' : 'dark' }} my-3" role="button"><i class="bi bi-trash text-danger"></i>Ctrl+Del - Hapus semua</button>
+                                    <button class="btn btn-outline-{{ $theme == 'dark' ? 'light' : 'dark' }} my-3"
+                                        role="button"><i class="bi bi-trash text-danger"></i>Ctrl+Del - Hapus
+                                        semua</button>
                                 </div>
                             </div>
                         </div>
@@ -327,7 +335,7 @@
                                                                 faktur: faktur,
                                                                 total_pembayaran: intPembayaran,
                                                                 qty: intBanyak,
-                                                                status: true
+                                                                status: 1
                                                             },
                                                             success: (
                                                                 res
@@ -367,7 +375,7 @@
                                                                 faktur: faktur,
                                                                 total_pembayaran: intPembayaran,
                                                                 qty: intBanyak,
-                                                                status: false
+                                                                status: 0
                                                             },
                                                             success: (
                                                                 res
@@ -389,7 +397,7 @@
                                 }
                             })
                         } else {
-                            let member = $('#member').val()
+                            var member = $('#member').val()
                             var faktur = $("input[name='faktur']").val()
                             $.ajax({
                                 url: "{{ route('getBarang') }}",
@@ -623,8 +631,9 @@
                 $(this).val(value.replace(/\D/g, ''));
             });
             $('#member').change(function() {
-                var dsc_member = $(this).val()
-                $('#diskon').val(parseInt(dsc_member))
+                var selectedOpt = $(this).find('option:selected')
+                var diskon = selectedOpt.data('diskon')
+                $('#diskon').val(parseInt(diskon))
                 $('#kode').focus()
             })
 

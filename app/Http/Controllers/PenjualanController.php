@@ -60,9 +60,10 @@ class PenjualanController extends Controller
     public function store(Request $request)
     {
         try {
-            if ($request['status'] === true) {
+            if ($request['status'] == true) {
                 $penjualan = Penjualan::where('status', false)->first();
                 PenjualanDetail::create([
+                    'user_id' => auth()->user()->id,
                     'kode_transaksi' => $penjualan->kode_transaksi,
                     'nomor_faktur' => $request['faktur'],
                     'qty' => $request['qty'],
@@ -85,6 +86,7 @@ class PenjualanController extends Controller
             } else {
                 $penjualan = Penjualan::where('status', false)->first();
                 PenjualanDetail::create([
+                    'user_id' => auth()->user()->id,
                     'kode_transaksi' => $penjualan->kode_transaksi,
                     'nomor_faktur' => $request['faktur'],
                     'qty' => $request['qty'],
@@ -198,6 +200,7 @@ class PenjualanController extends Controller
     }
     public function saveBarang(Request $request)
     {
+        // dd($request->all());
         try {
             $item = Item::firstWhere('kode', $request['kode']);
             $getKode_transaksi = Penjualan::firstWhere('status', false);
@@ -207,6 +210,8 @@ class PenjualanController extends Controller
                     if ($getKode_transaksi) {
                         $item_with_kode = Penjualan::create([
                             'item_id' => $item->id,
+                            'suplier_id' => $item->suplier_id,
+                            'member_id' => $request['member_id'],
                             'kode_transaksi' => $getKode_transaksi->kode_transaksi,
                             'harga' => $item->harga_jual,
                             'qty' => 1,
@@ -219,6 +224,8 @@ class PenjualanController extends Controller
                     } else {
                         $item_withot_kode = Penjualan::create([
                             'item_id' => $item->id,
+                            'suplier_id' => $item->suplier_id,
+                            'member_id' => $request['member_id'],
                             'kode_transaksi' => fake()->numberBetween(10),
                             'harga' => $item->harga_jual,
                             'qty' => 1,

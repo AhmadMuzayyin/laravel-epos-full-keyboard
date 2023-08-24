@@ -75,7 +75,7 @@
                                 <p>Alt+8 - Retur Penjualan</p>
                             </a>
                         </div>
-                        <div class="col">
+                        {{-- <div class="col">
                             <a href="{{ route('pembelian.index') }}" class="btn btn-outline-{{ $theme == 'dark' ? 'light' : 'dark' }} btn-lg d-block">
                                 <i class="bi bi-list-columns-reverse"></i>
                                 <p>Alt+9 - Pembelian</p>
@@ -87,7 +87,7 @@
                                 <i class="bi bi-box-arrow-down"></i>
                                 <p>Alt+Q - Retur Pembelian</p>
                             </a>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -102,13 +102,13 @@
                     <div class="row">
                         <div class="col">
 
-                            <a href="{{ route('dashboard') }}" class="btn btn-outline-{{ $theme == 'dark' ? 'light' : 'dark' }} btn-lg d-block">
+                            <a href="{{ route('laporan.penjualan') }}" class="btn btn-outline-{{ $theme == 'dark' ? 'light' : 'dark' }} btn-lg d-block">
                                 <i class="bi bi-file-earmark-bar-graph"></i>
                                 <p>Alt+W - Penjualan</p>
                             </a>
                         </div>
                         <div class="col">
-                            <a href="{{ route('retur_penjualan.index') }}" class="btn btn-outline-{{ $theme == 'dark' ? 'light' : 'dark' }} btn-lg d-block">
+                            <a href="{{ route('laporan.retur_penjualan') }}" class="btn btn-outline-{{ $theme == 'dark' ? 'light' : 'dark' }} btn-lg d-block">
                                 <i class="bi bi-file-earmark-excel"></i>
                                 <p>Alt+L - Retur Penjualan</p>
                             </a>
@@ -119,12 +119,12 @@
                                 <p>Alt+R - Pembelian</p>
                             </a>
                         </div>
-                        <div class="col">
+                        {{-- <div class="col">
                             <a href="{{ route('items.index') }}" class="btn btn-outline-{{ $theme == 'dark' ? 'light' : 'dark' }} btn-lg d-block">
                                 <i class="bi bi-file-earmark-excel"></i>
                                 <p>Alt+P - Retur Pembelian</p>
                             </a>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="col">
                         <a href="{{ route('items.index') }}" class="btn btn-outline-{{ $theme == 'dark' ? 'light' : 'dark' }} btn-lg d-block mt-3">
@@ -217,9 +217,13 @@
                             event.preventDefault()
                             window.location.href = "{{ route('retur_penjualan.index') }}"
                             break;
-                        case '9':
+                        case 'w':
                             event.preventDefault()
-                            window.location.href = "{{ route('pembelian.index') }}"
+                            window.location.href = "{{ route('laporan.penjualan') }}"
+                            break;
+                        case 'l':
+                            event.preventDefault()
+                            window.location.href = "{{ route('laporan.retur_penjualan') }}"
                             break;
                     }
                 }

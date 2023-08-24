@@ -11,10 +11,6 @@ class ReturPenjualan extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
-    public function penjualan()
-    {
-        return $this->belongsTo(Penjualan::class);
-    }
     public function penjualan_detail()
     {
         return $this->belongsTo(PenjualanDetail::class);

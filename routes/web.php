@@ -63,13 +63,15 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/retur_pembelian', ReturPembelianController::class);
 
     // reports
-    Route::prefix('laporan')->group(function () {
+    Route::prefix('laporan')->as('laporan.')->group(function () {
         Route::controller(LaporanController::class)->group(function () {
-            Route::get('/penjualan', 'penjualan');
-            Route::get('/retur_penjualan', 'returPenjualan');
-            Route::get('/pembelian', 'pembelian');
-            Route::get('/retur_pembelian', 'returPembelian');
-            Route::get('/laba_rugi', 'labaRugi');
+            Route::get('/penjualan', 'penjualan')->name('penjualan');
+            Route::get('/penjualan/export', 'export_penjualan')->name('export_penjualan');
+            Route::get('/retur_penjualan', 'retur_penjualan')->name('retur_penjualan');
+            Route::get('/retur_penjualan/export', 'export_retur_penjualan')->name('export_retur_penjualan');
+            Route::get('/pembelian', 'pembelian')->name('pembelian');
+            // Route::get('/retur_pembelian', 'returPembelian');
+            Route::get('/laba_rugi', 'laba_rugi')->name('laba_rugi');
         });
     });
 

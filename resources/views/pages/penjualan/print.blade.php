@@ -35,6 +35,7 @@
             Kasir:
             {{ Auth::user()->name }}</p>
         ---------------------------
+        
         @foreach ($data_print->penjualan as $value)
             <div class="row" style="font-size: 80%; ">
                 <div class="col">
