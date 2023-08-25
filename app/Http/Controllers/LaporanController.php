@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Exports\LaporanPenjualanExport;
 use App\Exports\LaporanReturPenjualanExport;
+use App\Models\Item;
+use App\Models\Modal;
 use App\Models\Penjualan;
 use App\Models\PenjualanDetail;
 use App\Models\ReturPenjualan;
@@ -15,14 +17,19 @@ use Yajra\DataTables\Facades\DataTables;
 class LaporanController extends Controller
 {
     public $year;
-    public function __construct() {
+    public $from;
+    public $to;
+    public function __construct()
+    {
         $this->year = request()->get('year') ?? date('Y');
+        $this->from = request()->get('from') ?? date('Y-m-d');
+        $this->to = (request()->get('to') == date('Y-m-d') ? date('Y-m-d', strtotime(date('Y-m-d') . '+1 day')) : request()->get('to')) ?? date('Y-m-d', strtotime(date('Y-m-d') . '+1 day'));
     }
     public function penjualan()
     {
         $tabel = Penjualan::with('member', 'suplier', 'item')
             ->join('penjualan_details', 'penjualans.kode_transaksi', '=', 'penjualan_details.kode_transaksi')
-            ->where('isRetur', false)
+            ->where('penjualans.isRetur', false)
             ->whereYear('penjualans.created_at', $this->year)
             ->get();
         // dd($tabel);
@@ -34,9 +41,10 @@ class LaporanController extends Controller
         for ($month = 1; $month <= 12; $month++) {
             $months[date('Y-m', strtotime("$this->year-$month-01"))] = 0;
         }
-        $lineData = PenjualanDetail::selectRaw('DATE_FORMAT(created_at, "%Y-%m") as month, SUM(total_tagihan) as total_value')
-            ->where('isRetur', false)
-            ->whereYear('created_at', $year)
+        $lineData = PenjualanDetail::selectRaw('DATE_FORMAT(penjualan_details.created_at, "%Y-%m") as month, SUM(total_tagihan) as total_value')
+            ->join('penjualans', 'penjualans.kode_transaksi', '=', 'penjualan_details.kode_transaksi')
+            ->where('penjualans.isRetur', false)
+            ->whereYear('penjualan_details.created_at', $this->year)
             ->groupBy('month')
             ->orderBy('month')
             ->pluck('total_value', 'month')
@@ -67,13 +75,9 @@ class LaporanController extends Controller
     }
     public function retur_penjualan()
     {
-        $tabel = ReturPenjualan::join('penjualan_details', 'retur_penjualans.penjualan_detail_id', '=', 'penjualan_details.id')
-        ->join('penjualans', 'penjualan_details.kode_transaksi', '=', 'penjualans.kode_transaksi')
-        ->join('items', 'penjualans.item_id', '=', 'items.id')
-        ->join('supliers', 'penjualans.suplier_id', '=', 'supliers.id')
-        ->join('members', 'penjualans.member_id', '=', 'members.id')
-        ->whereYear('retur_penjualans.created_at', $this->year)
-        ->select('items.nama as barang', 'items.kode', 'members.nama as member', 'supliers.nama as suplier', 'penjualans.qty', 'harga', 'total')
+        $tabel = ReturPenjualan::with('penjualan','penjualan.member', 'penjualan.suplier', 'penjualan.item')
+        ->whereHas('penjualan', fn($query) => $query->where('isRetur', true))
+        ->whereYear('created_at', $this->year)
         ->get();
         if (request()->ajax()) {
             return DataTables::of($tabel)->toJson();
@@ -84,10 +88,11 @@ class LaporanController extends Controller
     {
         return Excel::download(new LaporanReturPenjualanExport($this->year), "laporan-retur penjualan-$this->year.xlsx");
     }
-    public function pembelian()
-    {
-    }
     public function laba_rugi()
     {
+        $modal = Modal::sum('modal_sekarang');
+        $penjualan = PenjualanDetail::with('penjualan')->whereBetween('created_at', [$this->from, $this->to])->whereHas('penjualan', fn($query) => $query->where('isRetur', false))->sum('total_tagihan');
+        $hasil = $penjualan - $modal;
+        return view('pages.laporan.laba_rugi', compact('modal', 'hasil', 'penjualan'));
     }
 }

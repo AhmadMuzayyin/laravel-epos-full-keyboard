@@ -554,8 +554,8 @@
                 }, 3000);
             })
             $(document).keydown(function(event) {
-                event.preventDefault()
                 if (event.key === 'Escape') {
+                    event.preventDefault()
                     if (openModal == true) {
                         $('.modal').modal('hide')
                     }

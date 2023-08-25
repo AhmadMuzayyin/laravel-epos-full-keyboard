@@ -24,6 +24,7 @@ return new class extends Migration
             $table->bigInteger('qty');
             $table->bigInteger('total');
             $table->boolean('status')->default(false);
+            $table->boolean('isRetur')->default(false);
             $table->timestamps();
         });
     }

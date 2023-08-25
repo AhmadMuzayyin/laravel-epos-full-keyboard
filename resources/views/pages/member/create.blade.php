@@ -49,10 +49,10 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-light" id="btncreateMember">
+                <button type="button" class="btn btn-outline-{{ $theme == 'dark' ? 'light' : 'dark' }}" id="btncreateMember">
                     <i class="bi bi-clipboard2-check"></i> Enter - Simpan
                 </button>
-                <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">
+                <button type="button" class="btn btn-outline-{{ $theme == 'dark' ? 'light' : 'dark' }}" data-bs-dismiss="modal">
                     <i class="bi bi-clipboard2-x text-danger"></i> Esc - Batal
                 </button>
             </div>

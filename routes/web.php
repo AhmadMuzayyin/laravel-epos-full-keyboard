@@ -31,6 +31,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/items/update', [ItemController::class, 'update'])->name('items.update');
     Route::post('/items/destroy', [ItemController::class, 'destroy'])->name('items.destroy');
     Route::post('/items/import', [ItemController::class, 'import'])->name('items.import');
+    Route::get('/items/download', [ItemController::class, 'download'])->name('items.download');
 
     // members
     Route::resource('/members', MemberController::class)->except('update', 'destroy');
@@ -69,9 +70,8 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/penjualan/export', 'export_penjualan')->name('export_penjualan');
             Route::get('/retur_penjualan', 'retur_penjualan')->name('retur_penjualan');
             Route::get('/retur_penjualan/export', 'export_retur_penjualan')->name('export_retur_penjualan');
-            Route::get('/pembelian', 'pembelian')->name('pembelian');
-            // Route::get('/retur_pembelian', 'returPembelian');
             Route::get('/laba_rugi', 'laba_rugi')->name('laba_rugi');
+            Route::get('/laba_rugi/export', 'export_laba_rugi')->name('export_laba_rugi');
         });
     });
 

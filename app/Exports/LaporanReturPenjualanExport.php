@@ -15,14 +15,11 @@ class LaporanReturPenjualanExport implements FromView
     }
     public function view(): View
     {
-        $data = ReturPenjualan::join('penjualan_details', 'retur_penjualans.penjualan_detail_id', '=', 'penjualan_details.id')
-        ->join('penjualans', 'penjualan_details.kode_transaksi', '=', 'penjualans.kode_transaksi')
-        ->join('items', 'penjualans.item_id', '=', 'items.id')
-        ->join('supliers', 'penjualans.suplier_id', '=', 'supliers.id')
-        ->join('members', 'penjualans.member_id', '=', 'members.id')
-        ->whereYear('retur_penjualans.created_at', $this->year)
-        ->select('items.nama as barang', 'items.kode', 'members.nama as member', 'supliers.nama as suplier', 'penjualans.qty', 'harga', 'total')
+        $data = ReturPenjualan::with('penjualan','penjualan.member', 'penjualan.suplier', 'penjualan.item')
+        ->whereHas('penjualan', fn($query) => $query->where('isRetur', true))
+        ->whereYear('created_at', $this->year)
         ->get();
-        return view('pages.laporan.retur-penjualan-export', ['data' => $data]);   
+        $total = $data->sum(fn($item) => $item->penjualan->total);
+        return view('pages.laporan.retur-penjualan-export', ['data' => $data, 'total' => $total]);   
     }
 }

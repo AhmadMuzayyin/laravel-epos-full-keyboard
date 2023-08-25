@@ -173,13 +173,16 @@
                     window.open("{{ route('laporan.export_penjualan') }}", '_blank')
                 })
             });
-
-            $(document).keydown(function(event) {
-                if (event.key === 'Escape') {
-                    event.preventDefault()
-                    window.location.href = "{{ route('dashboard') }}"
-                }
-            })
         </script>
     @endpush
 @endif
+@push('js')
+    <script>
+        $(document).keydown(function(event) {
+            if (event.key === 'Escape') {
+                event.preventDefault()
+                window.location.href = "{{ route('dashboard') }}"
+            }
+        })
+    </script>
+@endpush

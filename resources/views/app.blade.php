@@ -23,6 +23,12 @@
         <link rel="stylesheet" href="{{ url('assets/sweatalert/sweetalert2.min.css') }}">
     @endif
 
+    <style>
+        body{
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+        }
+    </style>
+
 </head>
 
 <body class="font-sans antialiased">

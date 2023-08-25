@@ -44,31 +44,31 @@
                 select: 'single',
                 ajax: @json($tabel),
                 columns: [{
-                        data: 'kode',
+                        data: 'penjualan.item.kode',
                         name: 'kode'
                     },
                     {
-                        data: 'barang',
+                        data: 'penjualan.item.nama',
                         name: 'nama',
                     },
                     {
-                        data: 'suplier',
+                        data: 'penjualan.suplier.nama',
                         name: 'suplier',
                     },
                     {
-                        data: 'member',
+                        data: 'penjualan.member.nama',
                         name: 'member',
                     },
                     {
-                        data: 'qty',
+                        data: 'penjualan.qty',
                         name: 'qty',
                     },
                     {
-                        data: 'harga',
+                        data: 'penjualan.harga',
                         name: 'harga',
                     },
                     {
-                        data: 'total',
+                        data: 'penjualan.total',
                         name: 'total',
                     }
                 ]

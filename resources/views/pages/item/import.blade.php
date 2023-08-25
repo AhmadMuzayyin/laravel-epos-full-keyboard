@@ -17,6 +17,7 @@
                                 <input type="file" class="form-control" id="file"
                                     name="file">
                                 <div class="invalid-feedback" id="file_error"></div>
+                                <a href="{{ route('items.download') }}" target="_blank">Download format</a>
                             </div>
                         </div>
                     </div>

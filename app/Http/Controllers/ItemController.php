@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Imports\ItemImport;
 use App\Models\Item;
+use App\Models\Modal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
@@ -49,7 +51,19 @@ class ItemController extends Controller
                 'ukuran' => $request->ukuran,
                 'stok' => $request->stok,
                 'deskripsi' => $request->deskripsi,
+                'harga_beli' => $request->harga_beli,
+                'diskon_beli' => $request->diskon_beli,
+                'harga_jual' => $request->harga_jual,
+                'diskon_jual' => $request->diskon_jual,
             ]);
+            if ($item) {
+                $modal_sekarang = $item->harga_beli * $item->stok;
+                $total_modal = Modal::sum('total_modal');
+                Modal::create([
+                    'modal_sekarang' => $modal_sekarang,
+                    'total_modal' => $total_modal + $modal_sekarang
+                ]);
+            }
 
             return response()->json([
                 'status' => true,
@@ -132,6 +146,11 @@ class ItemController extends Controller
                 'msg' => $th->getMessage()
             ], 200);
         }
+    }
+
+    public function download(){
+        $mime = Storage::mimeType('Format import item.xlsx');
+        return response()->download(storage_path('app/public/').'Format import item.xlsx', 'Format import item.xlsx', ['Content-Type' => $mime]);
     }
     public function import(Request $request)
     {

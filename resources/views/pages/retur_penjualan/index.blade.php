@@ -85,44 +85,20 @@
                 {{-- card kanan --}}
                 <div class="card" style="height: 35rem">
                     <div class="card-body">
-                        {{-- <div class="row mb-5">
-                            <div class="col">
-                            </div>
-                            <div class="col">
-                                <select class="form-select" aria-label="Default select example" name="member"
-                                    id="member">
-                                    @foreach ($members as $member)
-                                        <option value="{{ $member['diskon'] }}">{{ $member['nama'] }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
                         <div class="row mb-3">
                             <div class="col">
-                                <label for="diskon" class="col-form-label">Diskon</label>
-                                <input type="text" class="form-control  text-end" id="diskon" name="diskon" placeholder="Diskon">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col">
-                                <label for="bayar" class="col-form-label">Bayar</label>
-                                <input type="text" class="form-control  text-end" width="50px" id="bayar" placeholder="Bayar">
-                            </div>
-                        </div> --}}
-                        <div class="row mb-3">
-                            <div class="col">
-                                <button role="button" class="btn btn-outline-{{ $theme == 'dark' ? 'light' : 'dark' }}"
+                                <span class="btn btn-outline-{{ $theme == 'dark' ? 'light' : 'dark' }}"
                                     id="simpan"><i class="bi bi bi-clipboard2-check"></i>
                                     <p>Ctrl+Enter - Simpan data</p>
-                                </button>
-                                <button role="button" class="btn btn-outline-{{ $theme == 'dark' ? 'light' : 'dark' }}"
+                                </span>
+                                <span class="btn btn-outline-{{ $theme == 'dark' ? 'light' : 'dark' }}"
                                     id="penjualanDelete"><i class="bi bi-trash text-danger"></i>
                                     <p>Delete - Hapus</p>
-                                </button>
-                                <button class="btn btn-outline-{{ $theme == 'dark' ? 'light' : 'dark' }} my-2"
-                                    role="button"><i class="bi bi-trash text-danger"></i>
+                                </span>
+                                <span class="btn btn-outline-{{ $theme == 'dark' ? 'light' : 'dark' }} my-2">
+                                    <i class="bi bi-trash text-danger"></i>
                                     <p>Ctrl+Del - Hapus semua</p>
-                                </button>
+                                </span>
                             </div>
                         </div>
                     </div>

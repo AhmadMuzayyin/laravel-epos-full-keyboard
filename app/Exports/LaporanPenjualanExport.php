@@ -19,7 +19,8 @@ class LaporanPenjualanExport implements FromView
         $data = Penjualan::with('member', 'suplier', 'item')
             ->join('penjualan_details', 'penjualans.kode_transaksi', '=', 'penjualan_details.kode_transaksi')
             ->where('isRetur', false)
-            ->whereYear('created_at', $this->year)->get();
+            ->whereYear('penjualans.created_at', $this->year)
+            ->whereYear('penjualan_details.created_at', $this->year)->get();
         return view('pages.laporan.penjualan-export', ['data' => $data]);
     }
 }

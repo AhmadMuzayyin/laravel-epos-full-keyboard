@@ -13,28 +13,24 @@ class ReturPenjualanController extends Controller
 {
     public function index()
     {
-        $penjualan = ReturPenjualan::join('penjualan_details', 'retur_penjualans.penjualan_detail_id', '=', 'penjualan_details.id')
-        ->join('penjualans', 'penjualan_details.kode_transaksi', '=', 'penjualans.kode_transaksi')
-        ->join('users', 'penjualan_details.user_id', '=', 'users.id')
-        ->join('items', 'penjualans.item_id', '=', 'items.id')->where('retur_penjualans.status', false)->get();
-        // dd($penjualan);
+        $penjualan = ReturPenjualan::with('penjualan', 'penjualan_detail')->where('status', false)->get();
         $dataPenjualan = [];
         $pengembalian = 0;
         if (!$penjualan->isEmpty()) {
             foreach ($penjualan as $key => $value) {
                 array_push($dataPenjualan, [
                     'id' => $value->id,
-                    'kode' => $value->kode,
-                    'item' => $value->nama,
-                    'harga' => $value->harga,
-                    'qty' => $value->qty,
-                    'total' => $value->total,
-                    'nomor_faktur' => $value->nomor_faktur,
-                    'nomor_faktur' => $value->nomor_faktur,
-                    'kasir' => $value->name
+                    'kode' => $value->penjualan->item->kode,
+                    'item' => $value->penjualan->item->nama,
+                    'harga' => $value->penjualan->harga,
+                    'qty' => $value->penjualan->qty,
+                    'total' => $value->penjualan->total,
+                    'nomor_faktur' => $value->penjualan_detail->nomor_faktur,
+                    'nomor_faktur' => $value->penjualan_detail->nomor_faktur,
+                    'kasir' => $value->penjualan_detail->user->name
                 ]);
             }
-            $pengembalian = $penjualan[0]->total_tagihan - ($penjualan[0]->total_tagihan * $penjualan[0]->diskon / 100);
+            $pengembalian = $penjualan[0]->penjualan_detail->total_tagihan - ($penjualan[0]->penjualan_detail->total_tagihan * $penjualan[0]->penjualan_detail->diskon / 100);
         }
         // dd($pengembalian);
         if (request()->ajax()) {
@@ -94,8 +90,13 @@ class ReturPenjualanController extends Controller
     public function update(Request $request)
     {
         try {
-            $data = ReturPenjualan::where('status', false)->first();
-            PenjualanDetail::where('id', $data->penjualan_detail_id)->update(['isRetur' => true]);
+            $data = ReturPenjualan::where('status', false);
+            foreach ($data->get() as $item) {
+                Penjualan::where('id', $item->penjualan_id)
+                ->update([
+                    'isRetur' => true
+                ]);
+            }
             $data->update([
                 'status' => true
             ]);

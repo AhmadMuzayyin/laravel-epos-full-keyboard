@@ -75,19 +75,6 @@
                                 <p>Alt+8 - Retur Penjualan</p>
                             </a>
                         </div>
-                        {{-- <div class="col">
-                            <a href="{{ route('pembelian.index') }}" class="btn btn-outline-{{ $theme == 'dark' ? 'light' : 'dark' }} btn-lg d-block">
-                                <i class="bi bi-list-columns-reverse"></i>
-                                <p>Alt+9 - Pembelian</p>
-                            </a>
-                        </div>
-                        <div class="col">
-
-                            <a href="{{ route('items.index') }}" class="btn btn-outline-{{ $theme == 'dark' ? 'light' : 'dark' }} btn-lg d-block">
-                                <i class="bi bi-box-arrow-down"></i>
-                                <p>Alt+Q - Retur Pembelian</p>
-                            </a>
-                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -113,21 +100,9 @@
                                 <p>Alt+L - Retur Penjualan</p>
                             </a>
                         </div>
-                        <div class="col">
-                            <a href="{{ route('items.index') }}" class="btn btn-outline-{{ $theme == 'dark' ? 'light' : 'dark' }} btn-lg d-block">
-                                <i class="bi bi-file-earmark-bar-graph"></i>
-                                <p>Alt+R - Pembelian</p>
-                            </a>
-                        </div>
-                        {{-- <div class="col">
-                            <a href="{{ route('items.index') }}" class="btn btn-outline-{{ $theme == 'dark' ? 'light' : 'dark' }} btn-lg d-block">
-                                <i class="bi bi-file-earmark-excel"></i>
-                                <p>Alt+P - Retur Pembelian</p>
-                            </a>
-                        </div> --}}
                     </div>
                     <div class="col">
-                        <a href="{{ route('items.index') }}" class="btn btn-outline-{{ $theme == 'dark' ? 'light' : 'dark' }} btn-lg d-block mt-3">
+                        <a href="{{ route('laporan.laba_rugi') }}" class="btn btn-outline-{{ $theme == 'dark' ? 'light' : 'dark' }} btn-lg d-block mt-3">
                             <i class="bi bi-currency-exchange"></i>
                             <p>Alt+Y - Laba Rugi</p>
                         </a>
@@ -224,6 +199,10 @@
                         case 'l':
                             event.preventDefault()
                             window.location.href = "{{ route('laporan.retur_penjualan') }}"
+                            break;
+                        case 'y':
+                            event.preventDefault()
+                            window.location.href = "{{ route('laporan.laba_rugi') }}"
                             break;
                     }
                 }

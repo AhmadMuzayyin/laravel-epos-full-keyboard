@@ -54,5 +54,9 @@ class DatabaseSeeder extends Seeder
             'kontak' => '085155353793',
             'jenis_kertas' => 'kecil'
         ]);
+        \App\Models\Modal::create([
+            'modal_sekarang' => 17000 * 1000,
+            'total_modal' => 17000 * 1000
+        ]);
     }
 }

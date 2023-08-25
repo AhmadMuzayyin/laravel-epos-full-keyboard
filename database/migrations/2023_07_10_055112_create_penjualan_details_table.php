@@ -24,7 +24,6 @@ return new class extends Migration
             $table->bigInteger('bayar');
             $table->bigInteger('kembalian');
             $table->boolean('isPrint')->default(false);
-            $table->boolean('isRetur')->default(false);
             $table->timestamps();
         });
     }

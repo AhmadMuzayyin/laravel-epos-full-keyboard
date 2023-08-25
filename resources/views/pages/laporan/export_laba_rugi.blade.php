@@ -13,18 +13,18 @@
     <tbody>
         @foreach ($data as $item)
             <tr>
-                <td>{{ $item->penjualan->kode }}</td>
-                <td>{{ $item->penjualan->barang }}</td>
-                <td>{{ $item->penjualan->suplier }}</td>
-                <td>{{ $item->penjualan->member }}</td>
-                <td>{{ $item->penjualan->qty }}</td>
-                <td>{{ number_format($item->penjualan->harga) }}</td>
-                <td>{{ number_format($item->penjualan->total) }}</td>
+                <td>{{ $item->kode }}</td>
+                <td>{{ $item->barang }}</td>
+                <td>{{ $item->suplier }}</td>
+                <td>{{ $item->member }}</td>
+                <td>{{ $item->qty }}</td>
+                <td>{{ number_format($item->harga) }}</td>
+                <td>{{ number_format($item->total) }}</td>
             </tr>
         @endforeach
         <tr>
             <td colspan="6"><strong>Jumlah Total</strong></td>
-            <td>{{ number_format($total) }}</td>
+            <td>{{ number_format($data->sum('total')) }}</td>
         </tr>
     </tbody>
 </table>
